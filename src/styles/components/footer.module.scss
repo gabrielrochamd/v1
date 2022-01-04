@@ -1,0 +1,25 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  padding: 3.5rem 0;
+  
+  main {
+    display: flex;
+    gap: 2.25rem;
+    justify-content: center;
+
+    a {
+      font-size: 0;
+
+      svg {
+        height: 1.875rem;
+        width: 1.875rem;
+      }
+    }
+  }
+
+  footer {
+    text-align: center;
+  }
+}

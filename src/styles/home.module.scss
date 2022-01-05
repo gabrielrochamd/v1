@@ -7,7 +7,7 @@
       .text {
         display: flex;
         flex-direction: column;
-        gap: 2.5rem;
+        justify-content: space-around;
       }
 
       .picture {

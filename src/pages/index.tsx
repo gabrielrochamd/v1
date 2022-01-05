@@ -7,7 +7,7 @@ export default function Home() {
       <Head>
         <title>Gabriel Rocha</title>
       </Head>
-      <div className={`${styles.presentation} container`}>
+      <section className={`${styles.presentation} container`}>
         <main>
           <div className={styles.text}>
             <h3>Hi, I am Gabriel, <br /> Software Developer</h3>
@@ -20,7 +20,7 @@ export default function Home() {
         <div className={styles.actionContainer}>
           <button>Download Resume</button>
         </div>
-      </div>
+      </section>
     </div>
   )
 }

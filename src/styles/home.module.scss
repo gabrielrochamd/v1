@@ -18,5 +18,16 @@
         }
       }
     }
+
+    .actionContainer {
+      button {
+        background-color: #ff6464;
+        border-radius: 0.125rem;
+        border-width: 0;
+        color: #fff;
+        font-size: 1.25rem;
+        padding: 1rem 1.25rem;
+      }
+    }
   }
 }

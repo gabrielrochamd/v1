@@ -17,6 +17,9 @@ export default function Home() {
             <img src="/images/profile-picture.jfif" alt="Gabriel Rocha" />
           </div>
         </main>
+        <div className={styles.actionContainer}>
+          <button>Download Resume</button>
+        </div>
       </div>
     </div>
   )

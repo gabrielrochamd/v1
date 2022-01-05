@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import posts from '../../data/posts.json'
 import styles from '../styles/home.module.scss'
 
 export default function Home() {
@@ -19,6 +20,29 @@ export default function Home() {
         </main>
         <div className={styles.actionContainer}>
           <button>Download Resume</button>
+        </div>
+      </section>
+      <section className={styles.blog}>
+        <div className={`${styles.highlightPosts} container`}>
+          <header>
+            <h6>Recent posts</h6>
+            <a href="">View all</a>
+          </header>
+          <main>
+            {
+              posts.map((post, index) => (
+                <a className={styles.post} href="" key={index}>
+                  <h5>{post.title}</h5>
+                  <div className={styles.info}>
+                    <span>{post.date}</span>
+                    <div className={styles.divider}></div>
+                    <span>{post.tags.join(', ')}</span>
+                  </div>
+                  <p>{post.description}</p>
+                </a>
+              ))
+            }
+          </main>
         </div>
       </section>
     </div>

@@ -1,5 +1,7 @@
 import Head from 'next/head'
+import Image from 'next/image'
 import posts from '../../data/posts.json'
+import projects from '../../data/projects.json'
 import styles from '../styles/home.module.scss'
 
 export default function Home() {
@@ -23,7 +25,7 @@ export default function Home() {
         </div>
       </section>
       <section className={styles.blog}>
-        <div className={`${styles.highlightPosts} container`}>
+        <div className="container">
           <header>
             <h6>Recent posts</h6>
             <a href="">View all</a>
@@ -44,6 +46,32 @@ export default function Home() {
             }
           </main>
         </div>
+      </section>
+      <section className={`${styles.projects} container`}>
+        <header>
+          <h6>Featured projects</h6>
+        </header>
+        <main>
+          {
+            projects.map((project, index) => (
+              <div className={styles.project} key={index}>
+                <a className={styles.imageContainer} href="">
+                  <Image height={180} layout="responsive" src={project.image} width={246} />
+                </a>
+                <div className={styles.dataContainer}>
+                  <a href="">
+                    <h5>{project.title}</h5>
+                  </a>
+                  <div className={styles.info}>
+                    <a href="" className={styles.year}>{project.year}</a>
+                    <a href="">{project.type}</a>
+                  </div>
+                  <p>{project.description}</p>
+                </div>
+              </div>
+            ))
+          }
+        </main>
       </section>
     </div>
   )

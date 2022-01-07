@@ -8,12 +8,13 @@
     
     main {
       display: flex;
-      gap: 10vw;
+      justify-content: space-between;
 
       .text {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+        width: 31rem;
       }
 
       .picture {

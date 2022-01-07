@@ -26,11 +26,11 @@ html, body {
   }
   
   @media screen and (min-width: $xl) {
-    font-size: 18px;
+    font-size: 17px;
   }
   
   @media screen and (min-width: $xxl) {
-    font-size: 20px;
+    font-size: 18px;
   }
 }
 
@@ -52,23 +52,27 @@ h1 {
 }
 
 h2 {
-  font-size: 3.5rem;
+  font-size: 3.4rem;
+  font-weight: 600;
 }
 
 h3 {
-  font-size: 3rem;
+  font-size: 2.8rem;
+  font-weight: 600;
 }
 
 h4 {
-  font-size: 2.5rem;
+  font-size: 2.2rem;
+  font-weight: 500;
 }
 
 h5 {
-  font-size: 2rem;
+  font-size: 1.6rem;
+  font-weight: 500;
 }
 
 h6 {
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 .container {

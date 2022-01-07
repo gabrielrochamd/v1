@@ -1,10 +1,23 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import posts from '../../data/posts.json'
 import projects from '../../data/projects.json'
+import { api } from '../services/api'
 import styles from '../styles/home.module.scss'
 
-export default function Home() {
+type BlogPost = {
+  content: string,
+  date: number,
+  description: string,
+  id: string,
+  tags: string[],
+  title: string
+}
+
+type Props = {
+  blogPosts: BlogPost[]
+}
+
+export default function Home({ blogPosts }: Props) {
   return (
     <div className={styles.root}>
       <Head>
@@ -32,11 +45,11 @@ export default function Home() {
           </header>
           <main>
             {
-              posts.map((post, index) => (
-                <a className={styles.post} href="" key={index}>
+              blogPosts.map((post, index) => (
+                <a className={styles.post} href={`blog/${post.id}`} key={index}>
                   <h5>{post.title}</h5>
                   <div className={styles.info}>
-                    <span>{post.date}</span>
+                    <span>{(new Date(post.date)).toLocaleDateString()}</span>
                     <div className={styles.divider}></div>
                     <span>{post.tags.join(', ')}</span>
                   </div>
@@ -75,4 +88,31 @@ export default function Home() {
       </section>
     </div>
   )
+}
+
+export const getStaticProps = async () => {
+  const { data } = await api.get('blogPosts', {
+    params: {
+      _limit: 2,
+      _sort: 'date',
+      _order: 'desc'
+    }
+  })
+
+  const blogPosts = data.map((blogPost: BlogPost) => {
+    return {
+      date: blogPost.date,
+      description: blogPost.description,
+      id: blogPost.id,
+      tags: blogPost.tags,
+      title: blogPost.title
+    }
+  })
+
+  return {
+    props: {
+      blogPosts
+    },
+    revalidate: 60 * 60 * 24
+  }
 }

@@ -1,0 +1,18 @@
+{
+  "blogPosts": [
+    {
+      "date": 1620856800000,
+      "description": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
+      "id": "how-to-learn-programming",
+      "tags": ["Beginner", "Programming"],
+      "title": "How to learn programming"
+    },
+    {
+      "date": 1621461600000,
+      "description": "Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.",
+      "id": "backend-x-frontend",
+      "tags": ["Backend", "Frontend"],
+      "title": "Backend x Frontend"
+    }
+  ]
+}

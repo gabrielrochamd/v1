@@ -25,12 +25,21 @@ type Context = {
 }
 
 export default function BlogPost({ blogPost }: Props) {
+  const date = new Date(blogPost.date);
+  
   return (
     <div className={`${styles.root} container`}>
       <Head>
         <title>{blogPost.title}</title>
       </Head>
-      <h1>{blogPost.title}</h1>
+      <h1 className={styles.title}>{blogPost.title}</h1>
+      <div className={styles.info}>
+        <span className={styles.date} title={date.toString()}>{date.toLocaleDateString()}</span>
+        <div className={styles.divider} />
+        <div className={styles.tags}>
+          { blogPost.tags.map((tag, index) => <a href="" key={index}>{tag}</a>) }
+        </div>
+      </div>
       <ReactMarkdown>{blogPost.content}</ReactMarkdown>
     </div>
   )

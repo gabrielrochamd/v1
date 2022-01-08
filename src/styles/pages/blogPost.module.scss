@@ -2,29 +2,40 @@
   &>* {
     margin-bottom: 1rem;
   }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0.625rem 0;
+  }
   
   h1 {
-    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    margin-top: 2.5rem;
   }
   
   h2 {
-    margin-bottom: 2rem;
+    font-size: 2.125rem;
+    margin-top: 2.125rem;
   }
   
   h3 {
-    margin-bottom: 1.5rem;
+    font-size: 1.75rem;
+    margin-top: 1.75rem;
   }
   
   h4 {
-    margin-bottom: 1.5rem;
+    font-size: 1.375rem;
+    margin-top: 1.375rem;
   }
   
   h5 {
-    margin-bottom: 1rem;
+    font-size: 1rem;
+    margin-top: 1rem;
   }
   
   h6 {
-    margin-bottom: 1rem;
+    color: #5c5c5c;
+    font-size: 1rem;
+    margin-top: 1rem;
   }
 
   pre {
@@ -36,5 +47,37 @@
 
   ul {
     padding-left: 2rem;
+  }
+
+  .title {
+    font-size: 3rem;
+  }
+
+  .divider {
+    background-color: #000;
+    width: 1px;
+  }
+
+  .info {
+    display: flex;
+    gap: 1.75rem;
+    margin-bottom: 3rem;
+
+    .date {
+      cursor: default;
+      user-select: none;
+    }
+
+    .tags {
+      display: flex;
+      gap: 1rem;
+      
+      a {
+        background-color: #142850;
+        border-radius: 1rem;
+        color: #fff;
+        padding: 0 0.625rem;
+      }
+    }
   }
 }

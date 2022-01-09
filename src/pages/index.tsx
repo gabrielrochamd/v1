@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import projects from '../../data/projects.json'
+import { useEffect, useRef } from 'react'
 import { api } from '../services/api'
 import styles from '../styles/home.module.scss'
 
@@ -13,11 +13,41 @@ type BlogPost = {
   title: string
 }
 
-type Props = {
-  blogPosts: BlogPost[]
+type Project = {
+  dateTime: number,
+  description: string,
+  id: number,
+  image: string,
+  title: string,
+  type: string,
+  url: string
 }
 
-export default function Home({ blogPosts }: Props) {
+type Props = {
+  blogPosts: BlogPost[],
+  projects: Project[]
+}
+
+export default function Home({ blogPosts, projects }: Props) {
+  const imageContainers = Array.from({ length: projects.length }, (v, k) => useRef<HTMLAnchorElement>(null))
+
+  function resizeImageContainers() {
+    for (const el of imageContainers) {
+      const ct = el.current
+      if (ct) {
+        ct.style.height = `${ct.clientWidth * 10 / 16}px` // Change aspect ratio for smaller screen sizes
+      }
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', () => resizeImageContainers())
+  }, [])
+
+  useEffect(() => {
+    resizeImageContainers()
+  }, [imageContainers])
+  
   return (
     <div className={styles.root}>
       <Head>
@@ -40,7 +70,7 @@ export default function Home({ blogPosts }: Props) {
       <section className={styles.blog}>
         <div className="container">
           <header>
-            <h6>Recent posts</h6>
+            <h5>Recent posts</h5>
             <a href="">View all</a>
           </header>
           <main>
@@ -62,21 +92,27 @@ export default function Home({ blogPosts }: Props) {
       </section>
       <section className={`${styles.projects} container`}>
         <header>
-          <h6>Featured projects</h6>
+          <h5>Featured projects</h5>
         </header>
         <main>
           {
             projects.map((project, index) => (
               <div className={styles.project} key={index}>
-                <a className={styles.imageContainer} href="">
-                  <Image height={180} layout="responsive" src={project.image} width={246} />
+                <a
+                  className={styles.imageContainer}
+                  href={project.url}
+                  ref={imageContainers[index]}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <Image layout="fill" objectFit="cover" src={project.image} />
                 </a>
                 <div className={styles.dataContainer}>
-                  <a href="">
+                  <a href={project.url}>
                     <h5>{project.title}</h5>
                   </a>
                   <div className={styles.info}>
-                    <a href="" className={styles.year}>{project.year}</a>
+                    <a href="" className={styles.year}>{(new Date(project.dateTime)).getFullYear()}</a>
                     <a href="">{project.type}</a>
                   </div>
                   <p>{project.description}</p>
@@ -91,7 +127,7 @@ export default function Home({ blogPosts }: Props) {
 }
 
 export const getStaticProps = async () => {
-  const { data } = await api.get('blogPosts', {
+  const blogPostsRequest = await api.get('blogPosts', {
     params: {
       _limit: 2,
       _sort: 'date',
@@ -99,7 +135,7 @@ export const getStaticProps = async () => {
     }
   })
 
-  const blogPosts = data.map((blogPost: BlogPost) => {
+  const blogPosts = blogPostsRequest.data.map((blogPost: BlogPost) => {
     return {
       date: blogPost.date,
       description: blogPost.description,
@@ -108,10 +144,31 @@ export const getStaticProps = async () => {
       title: blogPost.title
     }
   })
+  
+  const projectsRequest = await api.get('projects', {
+    params: {
+      _limit: 3,
+      _sort: 'dateTime',
+      _order: 'desc'
+    }
+  })
+
+  const projects = projectsRequest.data.map((project: Project) => {
+    return {
+      dateTime: project.dateTime,
+      description: project.description,
+      id: project.id,
+      image: project.image,
+      title: project.title,
+      tags: project.type,
+      url: project.url
+    }
+  })
 
   return {
     props: {
-      blogPosts
+      blogPosts,
+      projects
     },
     revalidate: 60 * 60 * 24
   }

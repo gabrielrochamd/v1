@@ -71,7 +71,7 @@ export default function Home({ blogPosts, projects }: Props) {
         <div className="container">
           <header>
             <h5>Recent posts</h5>
-            <a href="">View all</a>
+            <a href="/blog">View all</a>
           </header>
           <main>
             {

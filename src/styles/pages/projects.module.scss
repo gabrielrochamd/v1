@@ -1,0 +1,44 @@
+.root {
+  :global(.container) {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .project {
+      display: flex;
+      gap: 1rem;
+
+      .imageContainer {
+        position: relative;
+        min-width: 28%;
+        
+        img {
+          border-radius: 0.375rem;
+        }
+      }
+
+      .dataContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        .info {
+          display: flex;
+          gap: 1.75rem;
+
+          .year {
+            background-color: #142850;
+            border-radius: 1rem;
+            color: #fff;
+            padding: 0 0.625rem;
+          }
+        }
+      }
+    }
+
+    &>.divider {
+      background-color: #e0e0e0;
+      height: 1px;
+    }
+  }
+}

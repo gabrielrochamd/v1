@@ -5,7 +5,7 @@ export function Header() {
     <div className={styles.root}>
       <ul>
         <li><a href="/blog">Blog</a></li>
-        <li><a href="">Projects</a></li>
+        <li><a href="/projects">Projects</a></li>
         <li><a href="">Contact</a></li>
       </ul>
     </div>

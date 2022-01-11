@@ -29,7 +29,7 @@ type Props = {
 }
 
 export default function Home({ blogPosts, projects }: Props) {
-  const imageContainers = Array.from({ length: projects.length }, (v, k) => useRef<HTMLAnchorElement>(null))
+  const imageContainers = Array.from({ length: projects.length }, () => useRef<HTMLAnchorElement>(null))
 
   function resizeImageContainers() {
     for (const el of imageContainers) {

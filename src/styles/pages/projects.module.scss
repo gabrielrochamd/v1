@@ -32,6 +32,23 @@
             color: #fff;
             padding: 0 0.625rem;
           }
+
+          .type {
+            color: #8695a4;
+          }
+        }
+
+        @media screen and (max-width: calc(575px)) {
+          gap: 0.5rem;
+        }
+      }
+
+      @media screen and (max-width: calc(575px)) {
+        flex-direction: column;
+        gap: 1rem;
+
+        .imageContainer {
+          min-width: unset;
         }
       }
     }

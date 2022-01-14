@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { api } from '../services/api'
 import styles from '../styles/home.module.scss'
 
@@ -30,22 +30,30 @@ type Props = {
 
 export default function Home({ blogPosts, projects }: Props) {
   const imageContainers = Array.from({ length: projects.length }, () => useRef<HTMLAnchorElement>(null))
+  const [imageLayout, setImageLayout] = useState<'fill' | 'responsive'>('fill')
 
-  function resizeImageContainers() {
+  function resizeImages() {
+    setImageLayout(window.innerWidth >= 576 ? 'fill' : 'responsive')
     for (const el of imageContainers) {
       const ct = el.current
       if (ct) {
-        ct.style.height = `${ct.clientWidth * 10 / 16}px` // Change aspect ratio for smaller screen sizes
+        if (window.innerWidth >= 1200) {
+          ct.style.height = `${ct.clientWidth * 10 / 16}px`
+        } else if (window.innerWidth >= 576) {
+          ct.style.height = `${ct.clientWidth * 30 / 41}px`
+        } else {
+          ct.style.height = 'unset'
+        }
       }
     }
   }
 
   useEffect(() => {
-    window.addEventListener('resize', () => resizeImageContainers())
+    window.addEventListener('resize', () => resizeImages())
   }, [])
 
   useEffect(() => {
-    resizeImageContainers()
+    resizeImages()
   }, [imageContainers])
   
   return (
@@ -105,7 +113,7 @@ export default function Home({ blogPosts, projects }: Props) {
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <Image layout="fill" objectFit="cover" src={project.image} />
+                  <Image height={360} layout={imageLayout} objectFit="cover" src={project.image} width={640} />
                 </a>
                 <div className={styles.dataContainer}>
                   <a href={project.url}>
@@ -113,7 +121,7 @@ export default function Home({ blogPosts, projects }: Props) {
                   </a>
                   <div className={styles.info}>
                     <a href="" className={styles.year}>{(new Date(project.dateTime)).getFullYear()}</a>
-                    <a href="">{project.type}</a>
+                    <a href="" className={styles.type}>{project.type}</a>
                   </div>
                   <p>{project.description}</p>
                 </div>
@@ -160,7 +168,7 @@ export const getStaticProps = async () => {
       id: project.id,
       image: project.image,
       title: project.title,
-      tags: project.type,
+      type: project.type,
       url: project.url
     }
   })

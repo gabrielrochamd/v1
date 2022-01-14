@@ -1,15 +1,69 @@
 .root {
-  padding: 1.75rem 4rem;
+  padding: 1.75rem 0;
 
-  ul {
+  :global(.container) {
     display: flex;
-    gap: 2rem;
     justify-content: flex-end;
+    
+    ul {
+      display: flex;
+      gap: 2rem;
+      justify-content: flex-end;
 
-    li {
-      display: block;
-      font-size: 1.2rem;
-      font-weight: 500;
+      li {
+        display: block;
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+
+      @media screen and (max-width: 575px) {
+        backdrop-filter: blur(2px);
+        background-image: linear-gradient(90deg, transparent 0%, #fff 50%, #fff 100%);
+        bottom: -9999px;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        justify-content: flex-start;
+        left: 100%;
+        overflow-x: clip;
+        position: absolute;
+        right: 0;
+        top: 5.25rem;
+        transition: left 500ms;
+        z-index: 1;
+
+        li {
+          display: flex;
+          justify-content: flex-end;
+          width: 100%;
+
+          a {
+            padding: 1rem 6.25%;
+            text-align: end;
+            width: 50%;
+          }
+        }
+
+        &.active {
+          display: flex;
+          left: 0;
+        }
+      }
+    }
+
+    .menuTrigger {
+      background-color: transparent;
+      border-width: 0;
+      font-size: 0;
+
+      svg {
+        height: 1.75rem;
+        width: 1.75rem;
+      }
+
+      @media screen and (min-width: 576px) {
+        display: none;
+      }
     }
   }
 }

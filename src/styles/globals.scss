@@ -18,7 +18,7 @@ html, body {
   }
   
   @media screen and (min-width: $md) {
-    font-size: 15px;
+    font-size: 14px;
   }
   
   @media screen and (min-width: $lg) {
@@ -74,6 +74,10 @@ h6 {
 .container {
   margin: 0 auto;
   width: 70%;
+
+  @media screen and (max-width: calc($sm - 1px)) {
+    width: 87.5%;
+  }
   
   @media screen and (min-width: $sm) {
     max-width: 540px;

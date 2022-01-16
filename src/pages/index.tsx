@@ -1,10 +1,13 @@
+import axios from 'axios'
+import matter from 'gray-matter'
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import { api } from '../services/api'
 import styles from '../styles/home.module.scss'
 
-type BlogPost = {
+type Post = {
   content: string,
   date: number,
   description: string,
@@ -24,11 +27,11 @@ type Project = {
 }
 
 type Props = {
-  blogPosts: BlogPost[],
+  posts: Post[],
   projects: Project[]
 }
 
-export default function Home({ blogPosts, projects }: Props) {
+export default function Home({ posts, projects }: Props) {
   const imageContainers = useRef<Array<HTMLAnchorElement | null>>([])
   const [imageLayout, setImageLayout] = useState<'fill' | 'responsive'>('fill')
 
@@ -64,10 +67,10 @@ export default function Home({ blogPosts, projects }: Props) {
         <main>
           <div className={styles.text}>
             <h3>Hi, I am Gabriel, <br /> Software Developer</h3>
-            <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
+            <p>Computer scientist since 2020, frontend developer with React, Next and Android developer in my free time. I automate repetitive tasks and help people and companies get their business online.</p>
           </div>
           <div className={styles.picture}>
-            <img src="/images/profile-picture.jfif" alt="Gabriel Rocha" />
+            <Image alt="Gabriel Rocha" height={320} layout="responsive" priority={true} src="/images/profile-picture.jfif" width={320} />
           </div>
         </main>
         <div className={styles.actionContainer}>
@@ -78,11 +81,11 @@ export default function Home({ blogPosts, projects }: Props) {
         <div className="container">
           <header>
             <h5>Recent posts</h5>
-            <a href="/blog">View all</a>
+            <Link href="/blog">View all</Link>
           </header>
           <main>
             {
-              blogPosts.map((post, index) => (
+              posts.map((post, index) => (
                 <a className={styles.post} href={`blog/${post.id}`} key={index}>
                   <h5>{post.title}</h5>
                   <div className={styles.info}>
@@ -134,23 +137,22 @@ export default function Home({ blogPosts, projects }: Props) {
 }
 
 export const getStaticProps = async () => {
-  const blogPostsRequest = await api.get('blogPosts', {
-    params: {
-      _limit: 2,
-      _sort: 'date',
-      _order: 'desc'
-    }
-  })
+  const postsRequest = await axios.get('https://api.github.com/repos/gabrielrochamd/posts/contents/en')
 
-  const blogPosts = blogPostsRequest.data.map((blogPost: BlogPost) => {
+  let posts = await Promise.all(postsRequest.data.map(async (post: any) => {
+    const response = await axios.get(post.download_url)
+    const content = response.data
+    const parsed = matter(content)
     return {
-      date: blogPost.date,
-      description: blogPost.description,
-      id: blogPost.id,
-      tags: blogPost.tags,
-      title: blogPost.title
+      date: parsed.data.date,
+      description: parsed.data.description,
+      id: post.name.substring(0, post.name.length - 3),
+      tags: parsed.data.tags,
+      title: parsed.data.title
     }
-  })
+  }))
+
+  posts = posts.sort((a, b) => b.date - a.date).slice(0, 2)
   
   const projectsRequest = await api.get('projects', {
     params: {
@@ -174,7 +176,7 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      blogPosts,
+      posts,
       projects
     },
     revalidate: 60 * 60 * 24

@@ -1,9 +1,9 @@
 import { GetStaticPaths } from "next"
 import matter from 'gray-matter'
-import ReactMarkdown from "react-markdown"
-import { api } from "../../services/api"
+import ReactMarkdown from 'react-markdown'
 import styles from '../../styles/pages/blogPost.module.scss'
-import Head from "next/head"
+import Head from 'next/head'
+import axios from 'axios'
 
 type BlogPost = {
   content: string,
@@ -46,18 +46,12 @@ export default function BlogPost({ blogPost }: Props) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { data } = await api.get('blogPosts', {
-    params: {
-      _limit: 2,
-      _sort: 'date',
-      _order: 'desc'
-    }
-  })
+  const { data } = await axios.get('https://api.github.com/repos/gabrielrochamd/posts/contents/en')
 
-  const paths = data.map((blogPost: BlogPost) => {
+  const paths = data.map((post: { name: string }) => {
     return {
       params: {
-        slug: blogPost.id
+        slug: post.name.substring(0, post.name.length - 3)
       }
     }
   })
@@ -70,17 +64,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps = async (context: Context) => {
   const { slug } = context.params
-  const { data } = await api.get(`/blogPosts/${slug}`)
-  
-  const content = await import(`../../../public/blog/posts/${slug}.md`)
+  const { data } = await axios.get(`https://api.github.com/repos/gabrielrochamd/posts/contents/en/${slug}.md`)
+  const parsed = matter(Buffer.from(data.content, 'base64').toString('utf8'))
 
   const blogPost = {
-    content: matter(content.default).content,
-    date: data.date,
-    description: data.description,
-    id: data.id,
-    tags: data.tags,
-    title: data.title
+    content: parsed.content,
+    date: parsed.data.date,
+    description: parsed.data.description,
+    id: slug,
+    tags: parsed.data.tags,
+    title: parsed.data.title
   }
 
   return {

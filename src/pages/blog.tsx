@@ -1,5 +1,6 @@
+import axios from 'axios'
+import matter from 'gray-matter'
 import Head from 'next/head'
-import { api } from '../services/api'
 import styles from '../styles/pages/blog.module.scss'
 
 type Post = {
@@ -50,20 +51,22 @@ export default function Blog({ posts }: Props) {
 }
 
 export const getStaticProps = async () => {
-  const { data } = await api.get('blogPosts', {
-    params: {
-      _sort: 'date',
-      _order: 'desc'
-    }
-  })
+  const { data } = await axios.get('https://api.github.com/repos/gabrielrochamd/posts/contents/en')
 
-  const posts = data.map((post: Post) => ({
-    date: post.date,
-    description: post.description,
-    id: post.id,
-    tags: post.tags,
-    title: post.title
+  const posts = await Promise.all(data.map(async (post: any) => {
+    const response = await axios.get(post.download_url)
+    const content = response.data
+    const parsed = matter(content)
+    return {
+      date: parsed.data.date,
+      description: parsed.data.description,
+      id: post.name.substring(0, post.name.length - 3),
+      tags: parsed.data.tags,
+      title: parsed.data.title
+    }
   }))
+
+  posts.sort((a, b) => b.date - a.date)
 
   return {
     props: {

@@ -124,6 +124,7 @@ $xxl: 1400px;
         .post {
           background-color: #fff;
           display: flex;
+          flex-basis: 50%;
           flex-direction: column;
           gap: 1.25rem;
           padding: 1.5rem;
@@ -131,11 +132,6 @@ $xxl: 1400px;
           .info {
             display: flex;
             gap: 1.75rem;
-
-            @media screen and (max-width: calc($xl - 1px)) {
-              gap: 0;
-              justify-content: space-between;
-            }
 
             .divider {
               background-color: #000;

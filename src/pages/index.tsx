@@ -29,20 +29,19 @@ type Props = {
 }
 
 export default function Home({ blogPosts, projects }: Props) {
-  const imageContainers = Array.from({ length: projects.length }, () => useRef<HTMLAnchorElement>(null))
+  const imageContainers = useRef<Array<HTMLAnchorElement | null>>([])
   const [imageLayout, setImageLayout] = useState<'fill' | 'responsive'>('fill')
 
   function resizeImages() {
     setImageLayout(window.innerWidth >= 576 ? 'fill' : 'responsive')
-    for (const el of imageContainers) {
-      const ct = el.current
-      if (ct) {
+    for (const el of imageContainers.current) {
+      if (el) {
         if (window.innerWidth >= 1200) {
-          ct.style.height = `${ct.clientWidth * 10 / 16}px`
+          el.style.height = `${el.clientWidth * 10 / 16}px`
         } else if (window.innerWidth >= 576) {
-          ct.style.height = `${ct.clientWidth * 30 / 41}px`
+          el.style.height = `${el.clientWidth * 30 / 41}px`
         } else {
-          ct.style.height = 'unset'
+          el.style.height = 'unset'
         }
       }
     }
@@ -109,11 +108,11 @@ export default function Home({ blogPosts, projects }: Props) {
                 <a
                   className={styles.imageContainer}
                   href={project.url}
-                  ref={imageContainers[index]}
+                  ref={el => imageContainers.current[index] = el}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <Image height={360} layout={imageLayout} objectFit="cover" src={project.image} width={640} />
+                  <Image alt={project.title} height={360} layout={imageLayout} objectFit="cover" src={project.image} width={640} />
                 </a>
                 <div className={styles.dataContainer}>
                   <a href={project.url}>

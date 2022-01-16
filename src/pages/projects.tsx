@@ -49,7 +49,7 @@ export default function Projects({ projects }: Props) {
     <div className={styles.root}>
       <div className="container">
         <Head>
-          <title>Projects | Gabriel Rocha</title>
+          <title>Projects - Gabriel Rocha</title>
         </Head>
         <h3>Projects</h3>
         {

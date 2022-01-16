@@ -5,7 +5,7 @@ export default function Contact() {
   return (
     <div className={styles.root}>
       <Head>
-        <title>Contact</title>
+        <title>Contact - Gabriel Rocha</title>
       </Head>
       <div className="container">
         <h3>Contact</h3>

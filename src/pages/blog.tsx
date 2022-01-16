@@ -19,7 +19,7 @@ export default function Blog({ posts }: Props) {
   return (
     <div className={styles.root}>
       <Head>
-        <title>Blog | Gabriel Rocha</title>
+        <title>Blog - Gabriel Rocha</title>
       </Head>
       <div className="container">
         <h3>Blog</h3>

@@ -2,15 +2,16 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { api } from '../services/api'
+import clientPromise from '../services/mongodb'
 import styles from '../styles/pages/projects.module.scss'
 
 type Project = {
   dateTime: number,
-  description: string,
-  id: number,
+  description: string | { en: string, pt: string },
+  _id: string,
   image: string,
-  title: string,
-  type: string,
+  title: string | { en: string, pt: string },
+  type: string | { en: string, pt: string },
   url: string
 }
 
@@ -55,6 +56,9 @@ export default function Projects({ projects }: Props) {
         {
           projects.map((project, index) => {
             const date = new Date(project.dateTime)
+            const description = typeof project.description === 'string' ? project.description : project.description.en
+            const title = typeof project.title === 'string' ? project.title : project.title.en
+            const type = typeof project.type === 'string' ? project.type : project.type.en
             return (
               <>
                 { index !== 0 && <div className={styles.divider}></div> }
@@ -65,17 +69,17 @@ export default function Projects({ projects }: Props) {
                     ref={el => imageContainers.current[index] = el}
                     rel="noopener noreferrer"
                     target="_blank">
-                    <Image alt={project.title} height={360} layout={imageLayout} objectFit="cover" src={project.image} width={640} />
+                    <Image alt={title} height={360} layout={imageLayout} objectFit="cover" src={project.image} width={640} />
                   </a>
                   <div className={styles.dataContainer}>
                     <a href={project.url}>
-                      <h5>{project.title}</h5>
+                      <h5>{title}</h5>
                     </a>
                     <div className={styles.info}>
                       <a href="" className={styles.year} title={date.toString()}>{date.getFullYear()}</a>
-                      <a href="" className={styles.type}>{project.type}</a>
+                      <a href="" className={styles.type}>{type}</a>
                     </div>
-                    <p>{project.description}</p>
+                    <p>{description}</p>
                   </div>
                 </div>
               </>
@@ -88,29 +92,27 @@ export default function Projects({ projects }: Props) {
 }
 
 export const getStaticProps = async () => {
-  const { data } = await api.get('projects', {
-    params: {
-      _sort: 'dateTime',
-      _order: 'desc'
-    }
-  })
-
-  const projects = data.map((project: Project) => {
+  try {
+    // client.db() will be the default database passed in the MONGODB_URI
+    // You can change the database by calling the client.db() function and specifying a database like:
+    // const db = client.db("myDatabase");
+    // Then you can execute queries against your database like so:
+    // db.find({}) or any of the MongoDB Node Driver commands
+    const client = await clientPromise
+    const v1DB = client?.db('v1')
+    const projectsResults = await v1DB?.collection('projects').find({}).sort({ dateTime: -1 }).toArray()
+    const projects = projectsResults?.map(projectResult => ({
+      ...projectResult,
+      _id: projectResult._id.toString()
+    }))
     return {
-      dateTime: project.dateTime,
-      description: project.description,
-      id: project.id,
-      image: project.image,
-      title: project.title,
-      type: project.type,
-      url: project.url
+      props: { projects },
+      revalidate: 60 * 60 * 24
     }
-  })
-
-  return {
-    props: {
-      projects
-    },
-    revalidate: 60 * 60 * 24
+  } catch (e) {
+    console.error(e)
+    return {
+      props: { projects: [] },
+    }
   }
 }

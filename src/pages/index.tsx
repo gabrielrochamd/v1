@@ -4,7 +4,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
-import { api } from '../services/api'
+import clientPromise from '../services/mongodb'
 import styles from '../styles/home.module.scss'
 
 type Post = {
@@ -18,11 +18,11 @@ type Post = {
 
 type Project = {
   dateTime: number,
-  description: string,
-  id: number,
+  description: string | { en: string, pt: string },
+  _id: string,
   image: string,
-  title: string,
-  type: string,
+  title: string | { en: string, pt: string },
+  type: string | { en: string, pt: string },
   url: string
 }
 
@@ -106,29 +106,35 @@ export default function Home({ posts, projects }: Props) {
         </header>
         <main>
           {
-            projects.map((project, index) => (
-              <div className={styles.project} key={index}>
-                <a
-                  className={styles.imageContainer}
-                  href={project.url}
-                  ref={el => imageContainers.current[index] = el}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <Image alt={project.title} height={360} layout={imageLayout} objectFit="cover" src={project.image} width={640} />
-                </a>
-                <div className={styles.dataContainer}>
-                  <a href={project.url}>
-                    <h5>{project.title}</h5>
+            projects.map((project, index) => {
+              const date = new Date(project.dateTime)
+              const description = typeof project.description === 'string' ? project.description : project.description.en
+              const title = typeof project.title === 'string' ? project.title : project.title.en
+              const type = typeof project.type === 'string' ? project.type : project.type.en
+              return (
+                <div className={styles.project} key={index}>
+                  <a
+                    className={styles.imageContainer}
+                    href={project.url}
+                    ref={el => imageContainers.current[index] = el}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Image alt={title} height={360} layout={imageLayout} objectFit="cover" src={project.image} width={640} />
                   </a>
-                  <div className={styles.info}>
-                    <a href="" className={styles.year}>{(new Date(project.dateTime)).getFullYear()}</a>
-                    <a href="" className={styles.type}>{project.type}</a>
+                  <div className={styles.dataContainer}>
+                    <a href={project.url}>
+                      <h5>{title}</h5>
+                    </a>
+                    <div className={styles.info}>
+                      <a href="" className={styles.year}>{(new Date(project.dateTime)).getFullYear()}</a>
+                      <a href="" className={styles.type}>{type}</a>
+                    </div>
+                    <p>{description}</p>
                   </div>
-                  <p>{project.description}</p>
                 </div>
-              </div>
-            ))
+              )
+            })
           }
         </main>
       </section>
@@ -137,9 +143,12 @@ export default function Home({ posts, projects }: Props) {
 }
 
 export const getStaticProps = async () => {
+  let posts: Post[]
+  let projects: Project[]
+  
   const postsRequest = await axios.get('https://api.github.com/repos/gabrielrochamd/posts/contents/en')
 
-  let posts = await Promise.all(postsRequest.data.map(async (post: any) => {
+  posts = await Promise.all(postsRequest.data.map(async (post: any) => {
     const response = await axios.get(post.download_url)
     const content = response.data
     const parsed = matter(content)
@@ -154,25 +163,15 @@ export const getStaticProps = async () => {
 
   posts = posts.sort((a, b) => b.date - a.date).slice(0, 2)
   
-  const projectsRequest = await api.get('projects', {
-    params: {
-      _limit: 3,
-      _sort: 'dateTime',
-      _order: 'desc'
-    }
-  })
-
-  const projects = projectsRequest.data.map((project: Project) => {
-    return {
-      dateTime: project.dateTime,
-      description: project.description,
-      id: project.id,
-      image: project.image,
-      title: project.title,
-      type: project.type,
-      url: project.url
-    }
-  })
+  const client = await clientPromise
+  const v1DB = client?.db('v1')
+  const projectsResults = (await v1DB?.collection('projects').find({}).sort({ dateTime: -1 }).limit(3).toArray()) as Project[] | undefined
+  projects = projectsResults ? (
+    projectsResults.map(projectResult => ({
+      ...projectResult,
+      _id: projectResult._id.toString()
+    }))
+  ) : []
 
   return {
     props: {

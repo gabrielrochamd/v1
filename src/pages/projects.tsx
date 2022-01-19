@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
-import { api } from '../services/api'
 import clientPromise from '../services/mongodb'
 import styles from '../styles/pages/projects.module.scss'
 

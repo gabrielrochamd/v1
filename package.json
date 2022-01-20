@@ -11,16 +11,18 @@
   "dependencies": {
     "axios": "^0.24.0",
     "gray-matter": "^4.0.3",
+    "install-peers": "^1.0.3",
     "json-server": "^0.17.0",
     "mongodb": "^4.3.0",
-    "next": "12.0.7",
+    "next": "12.0.9-canary.2",
     "raw-loader": "^4.0.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
     "react-markdown": "^7.1.2",
     "sass": "^1.45.2",
-    "sharp": "^0.29.3"
+    "sharp": "^0.29.3",
+    "webpack": "^5.66.0"
   },
   "devDependencies": {
     "@types/node": "17.0.6",

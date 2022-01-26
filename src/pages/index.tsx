@@ -74,7 +74,7 @@ export default function Home({ posts, projects }: Props) {
           </div>
         </main>
         <div className={styles.actionContainer}>
-          <button>Download Resume</button>
+          <a href="/documents/resume.pdf" rel="noopener noreferrer" target="_blank">Download Resume</a>
         </div>
       </section>
       <section className={styles.blog}>

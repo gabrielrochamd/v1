@@ -54,7 +54,7 @@
   }
 
   .divider {
-    background-color: #000;
+    background-color: var(--color-text);
     width: 1px;
   }
 
@@ -73,9 +73,9 @@
       gap: 1rem;
       
       a {
-        background-color: #142850;
+        background-color: var(--color-tag-background);
         border-radius: 1rem;
-        color: #fff;
+        color: var(--color-background);
         padding: 0 0.625rem;
       }
     }

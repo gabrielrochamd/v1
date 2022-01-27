@@ -24,7 +24,7 @@
       }
 
       input[type='submit'] {
-        background-color: #ff6464;
+        background-color: var(--color-action-background);
         border-radius: 0.125rem;
         border-width: 0;
         color: #fff;

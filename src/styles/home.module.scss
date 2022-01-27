@@ -71,7 +71,7 @@ $xxl: 1400px;
 
     .actionContainer {
       a {
-        background-color: #ff6464;
+        background-color: var(--color-action-background);
         border-radius: 0.125rem;
         border-width: 0;
         color: #fff;
@@ -90,7 +90,7 @@ $xxl: 1400px;
   }
 
   .blog {
-    background-color: #edf7fa;
+    background-color: var(--color-home-blog-background);
     padding-bottom: 2rem;
 
     div {
@@ -122,7 +122,7 @@ $xxl: 1400px;
         gap: 1.25rem;
         
         .post {
-          background-color: #fff;
+          background-color: var(--color-background);
           display: flex;
           flex-basis: 50%;
           flex-direction: column;
@@ -134,7 +134,7 @@ $xxl: 1400px;
             gap: 1.75rem;
 
             .divider {
-              background-color: #000;
+              background-color: var(--color-text);
               width: 1px;
             }
           }
@@ -192,9 +192,9 @@ $xxl: 1400px;
             gap: 1.75rem;
 
             .year {
-              background-color: #142850;
+              background-color: var(--color-tag-background);
               border-radius: 1rem;
-              color: #fff;
+              color: var(--color-background);
               padding: 0 0.625rem;
             }
 

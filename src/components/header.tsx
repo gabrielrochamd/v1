@@ -7,6 +7,7 @@ import { Navbar } from './navbar'
 
 export function Header() {
   const router = useRouter()
+  const [darkTheme, setDarkTheme] = useState(false)
   const [showMenu, setShowMenu] = useState(false)
 
   function toggleMenu() {
@@ -25,6 +26,15 @@ export function Header() {
       router.events.off('routeChangeComplete', handler)
     }
   }, [router.events])
+
+  useEffect(() => {
+    // TODO: Use state to manage dark theme
+    if (darkTheme) {
+      document.querySelector(':root')!.classList.add('darkTheme')
+    } else {
+      document.querySelector(':root')!.classList.remove('darkTheme')
+    }
+  }, [darkTheme])
   
   return (
     <div className={styles.root}>
@@ -32,6 +42,7 @@ export function Header() {
         <button className={styles.menuTrigger} onClick={() => toggleMenu()}>
           <BsList />
         </button>
+        <input onChange={e => setDarkTheme(e.target.checked)} type="checkbox" name="theme" id="theme" />
         <ul>
           <li><Link href="/">Home</Link></li>
           <li><Link href="/blog">Blog</Link></li>

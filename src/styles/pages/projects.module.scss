@@ -27,9 +27,9 @@
           gap: 1.75rem;
 
           .year {
-            background-color: #142850;
+            background-color: var(--color-tag-background);
             border-radius: 1rem;
-            color: #fff;
+            color: var(--color-background);
             padding: 0 0.625rem;
           }
 

@@ -1,0 +1,32 @@
+.root {
+  background-color: skyblue;
+  border-color: #000;
+  border-radius: 0.75rem;
+  border-style: solid;
+  border-width: 1px;
+  height: calc(1rem + 8px);
+  position: relative;
+  transition: background-color 1s;
+  width: 3rem;
+
+  &.darkTheme {
+    background-color: darkblue;
+    border-color: #fff;
+  }
+
+  .indicator {
+    font-size: 0;
+    height: 1rem;
+    left: 10%;
+    position: absolute;
+    top: calc(50%);
+    transform: translateY(-50%);
+    transition: left 1s, transform 1s;
+    width: 1rem;
+
+    &.darkTheme {
+      left: 55%;
+      transform: translateY(-50%) rotateY(180deg);
+    }
+  }
+}

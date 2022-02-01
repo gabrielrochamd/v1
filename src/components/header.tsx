@@ -1,13 +1,12 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BsList } from 'react-icons/bs'
-import { DarkThemeContext } from '../contexts/DarkThemeContext'
 import styles from '../styles/components/header.module.scss'
+import { DarkThemeSwitch } from './dark-theme-switch'
 import { Navbar } from './navbar'
 
 export function Header() {
-  const { setActive } = useContext(DarkThemeContext)
   const router = useRouter()
   const [showMenu, setShowMenu] = useState(false)
 
@@ -34,7 +33,7 @@ export function Header() {
         <button className={styles.menuTrigger} onClick={() => toggleMenu()}>
           <BsList />
         </button>
-        <input onChange={e => setActive(e.target.checked)} type="checkbox" name="theme" id="theme" />
+        <DarkThemeSwitch />
         <ul>
           <li><Link href="/">Home</Link></li>
           <li><Link href="/blog">Blog</Link></li>

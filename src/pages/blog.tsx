@@ -28,20 +28,18 @@ export default function Blog({ posts }: Props) {
           posts.map((post, index) => {
             const date = new Date(post.date)
             return (
-              <>
-                { index !== 0 && <div className={styles.divider}></div> }
-                <div className={styles.post} key={index}>
-                  <a href={`blog/${post.id}`}>
-                    <h5>{post.title}</h5>
-                  </a>
-                  <div className={styles.info}>
-                    <span className={styles.dateTime} title={date.toString()}>{date.toLocaleDateString()}</span>
-                    <div className={styles.divider}></div>
-                    <span>{post.tags.join(', ')}</span>
-                  </div>
-                  <p>{post.description}</p>
+              <div className={styles.post} key={index}>
+                <a href={`blog/${post.id}`}>
+                  <h5>{post.title}</h5>
+                </a>
+                <div className={styles.info}>
+                  <span className={styles.dateTime} title={date.toString()}>{date.toLocaleDateString()}</span>
+                  <div className={styles.divider}></div>
+                  <span>{post.tags.join(', ')}</span>
                 </div>
-              </>
+                <p>{post.description}</p>
+                <div className={styles.divider} />
+              </div>
             )
           })
         }

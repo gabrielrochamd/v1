@@ -59,29 +59,27 @@ export default function Projects({ projects }: Props) {
             const title = typeof project.title === 'string' ? project.title : project.title.en
             const type = typeof project.type === 'string' ? project.type : project.type.en
             return (
-              <>
-                { index !== 0 && <div className={styles.divider}></div> }
-                <div className={styles.project} key={index}>
-                  <a
-                    className={styles.imageContainer}
-                    href={project.url}
-                    ref={el => imageContainers.current[index] = el}
-                    rel="noopener noreferrer"
-                    target="_blank">
-                    <Image alt={title} height={360} layout={imageLayout} objectFit="cover" src={project.image} width={640} />
+              <div className={styles.project} key={index}>
+                <a
+                  className={styles.imageContainer}
+                  href={project.url}
+                  ref={el => imageContainers.current[index] = el}
+                  rel="noopener noreferrer"
+                  target="_blank">
+                  <Image alt={title} height={360} layout={imageLayout} objectFit="cover" src={project.image} width={640} />
+                </a>
+                <div className={styles.dataContainer}>
+                  <a href={project.url}>
+                    <h5>{title}</h5>
                   </a>
-                  <div className={styles.dataContainer}>
-                    <a href={project.url}>
-                      <h5>{title}</h5>
-                    </a>
-                    <div className={styles.info}>
-                      <a href="" className={styles.year} title={date.toString()}>{date.getFullYear()}</a>
-                      <a href="" className={styles.type}>{type}</a>
-                    </div>
-                    <p>{description}</p>
+                  <div className={styles.info}>
+                    <a href="" className={styles.year} title={date.toString()}>{date.getFullYear()}</a>
+                    <a href="" className={styles.type}>{type}</a>
                   </div>
+                  <p>{description}</p>
                 </div>
-              </>
+                <div className={styles.divider} />
+              </div>
             )
           })
         }

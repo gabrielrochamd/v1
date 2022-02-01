@@ -9,6 +9,12 @@
       flex-direction: column;
       gap: 1rem;
 
+      &>.divider {
+        background-color: #e0e0e0;
+        height: 1px;
+        margin-top: 1rem;
+      }
+
       .info {
         display: flex;
         gap: 1.75rem;
@@ -23,11 +29,6 @@
           width: 1px;
         }
       }
-    }
-
-    &>.divider {
-      background-color: #e0e0e0;
-      height: 1px;
     }
   }
 }

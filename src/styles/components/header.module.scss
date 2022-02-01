@@ -2,7 +2,9 @@
   padding: 1.75rem 0;
 
   :global(.container) {
+    align-items: center;
     display: flex;
+    gap: 2rem;
     justify-content: flex-end;
     
     ul {
@@ -35,6 +37,14 @@
       @media screen and (min-width: 576px) {
         display: none;
       }
+
+      @media screen and (max-width: 575px) {
+        order: 2;
+      }
+    }
+
+    @media screen and (max-width: 575px) {
+      justify-content: space-between;
     }
   }
 }

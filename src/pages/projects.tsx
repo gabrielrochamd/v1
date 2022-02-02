@@ -65,8 +65,15 @@ export default function Projects({ projects }: Props) {
                   href={project.url}
                   ref={el => imageContainers.current[index] = el}
                   rel="noopener noreferrer"
-                  target="_blank">
-                  <Image alt={title} height={360} layout={imageLayout} objectFit="cover" src={project.image} width={640} />
+                  target="_blank"
+                >
+                  {
+                    imageLayout === 'fill' ? (
+                      <Image alt={title} layout={imageLayout} objectFit="cover" src={project.image} />
+                    ) : (
+                      <Image alt={title} height={360} layout={imageLayout} objectFit="cover" src={project.image} width={640} />
+                    )
+                  }
                 </a>
                 <div className={styles.dataContainer}>
                   <a href={project.url}>

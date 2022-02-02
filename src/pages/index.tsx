@@ -120,7 +120,13 @@ export default function Home({ posts, projects }: Props) {
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    <Image alt={title} height={360} layout={imageLayout} objectFit="cover" src={project.image} width={640} />
+                    {
+                      imageLayout === 'fill' ? (
+                        <Image alt={title} layout={imageLayout} objectFit="cover" src={project.image} />
+                      ) : (
+                        <Image alt={title} height={360} layout={imageLayout} objectFit="cover" src={project.image} width={640} />
+                      )
+                    }
                   </a>
                   <div className={styles.dataContainer}>
                     <a href={project.url}>

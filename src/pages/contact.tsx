@@ -1,7 +1,21 @@
+import axios from 'axios'
 import Head from 'next/head'
+import { FormEvent } from 'react'
 import styles from '../styles/pages/contact.module.scss'
 
 export default function Contact() {
+  async function handleSubmit(event: FormEvent) {
+    event.preventDefault()
+    const formData = (event.currentTarget as HTMLFormElement).elements
+    const body = {
+      email: (formData.namedItem('email') as HTMLInputElement).value,
+      name: (formData.namedItem('name') as HTMLInputElement).value,
+      message: (formData.namedItem('message') as HTMLInputElement).value
+    }
+    const { data } = await axios.post('api/contact', body)
+    console.log(data)
+  }
+  
   return (
     <div className={styles.root}>
       <Head>
@@ -9,7 +23,7 @@ export default function Contact() {
       </Head>
       <div className="container">
         <h3>Contact</h3>
-        <form action="">
+        <form onSubmit={handleSubmit}>
           <div className={styles.inputContainer}>
             <label htmlFor="name">Name</label>
             <input id="name" name="name" type="text" />

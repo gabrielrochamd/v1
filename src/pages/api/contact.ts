@@ -2,27 +2,30 @@ import { NextApiRequest, NextApiResponse } from "next"
 import nodemailer from 'nodemailer'
 
 export default async function contact(req: NextApiRequest, res: NextApiResponse) {
-  let testAccount = await nodemailer.createTestAccount()
+  const sender = {
+    pass: process.env.SENDER_PASS,
+    user: process.env.SENDER_USER
+  }
 
   let transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
+    host: 'smtp.gmail.com',
     port: 587,
     secure: false,
     auth: {
-      user: testAccount.user,
-      pass: testAccount.pass
+      user: sender.user,
+      pass: sender.pass
     }
   })
 
   let info = await transporter.sendMail({
     from: `"${req.body.name}" <${req.body.email}>`,
-    to: 'gabrielmrocha@outlook.com.br',
-    subject: `[gabrielrochav1] ${req.body.name} - Vercel`,
+    to: process.env.RECIPIENT,
+    replyTo: req.body.email,
+    subject: `[Vercel][v1] ${req.body.name}`,
     text: req.body.message
   })
 
   console.log(`Message sent: ${info.messageId}`)
-  console.log(`Preview URL: ${nodemailer.getTestMessageUrl(info)}`)
   
   res.status(200).json(`Message sent: ${info.messageId}`)
 }

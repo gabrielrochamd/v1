@@ -12,8 +12,14 @@ export default function Contact() {
       name: (formData.namedItem('name') as HTMLInputElement).value,
       message: (formData.namedItem('message') as HTMLInputElement).value
     }
-    const { data } = await axios.post('api/contact', body)
-    console.log(data)
+    try {
+      const { data } = await axios.post('api/contact', body)
+      console.log(data)
+      alert('Message sent!')
+    } catch (error) {
+      console.error(error)
+      alert('Error sending message!')
+    }
   }
   
   return (

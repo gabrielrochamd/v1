@@ -1,18 +1,20 @@
-import { createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
+import { setCookies } from 'cookies-next'
+import React, { createContext, Dispatch, ReactChild, SetStateAction, useEffect, useState } from "react";
 
 type ContextData = {
   active: boolean,
   setActive: Dispatch<SetStateAction<boolean>>
 }
 
-type Props = {
-  children: ReactNode
+interface Props {
+  children: ReactChild | ReactChild[]
+  darkTheme: boolean
 }
 
 export const DarkThemeContext = createContext({} as ContextData)
 
-export function DarkThemeProvider({ children }: Props) {
-  const [active, setActive] = useState(false)
+export function DarkThemeProvider({ children, ...rest }: Props) {
+  const [active, setActive] = useState(rest.darkTheme)
 
   useEffect(() => {
     const root = document.querySelector(':root')
@@ -21,6 +23,7 @@ export function DarkThemeProvider({ children }: Props) {
     } else {
       root?.classList.remove('darkTheme')
     }
+    setCookies('darkTheme', active ? '1' : '0', { secure: true })
   }, [active])
   
   return (

@@ -11,6 +11,7 @@
   "dependencies": {
     "@types/nodemailer": "^6.4.4",
     "axios": "^0.24.0",
+    "cookies-next": "^2.0.4",
     "gray-matter": "^4.0.3",
     "install-peers": "^1.0.3",
     "json-server": "^0.17.0",

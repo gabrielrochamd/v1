@@ -9,11 +9,6 @@
   transition: background-color 1s;
   width: 3rem;
 
-  &.darkTheme {
-    background-color: darkblue;
-    border-color: #fff;
-  }
-
   .indicator {
     font-size: 0;
     height: 1rem;
@@ -23,8 +18,13 @@
     transform: translateY(-50%);
     transition: left 1s, transform 1s;
     width: 1rem;
+  }
 
-    &.darkTheme {
+  &.darkTheme {
+    background-color: darkblue;
+    border-color: #fff;
+
+    .indicator {
       left: 55%;
       transform: translateY(-50%) rotateY(180deg);
     }

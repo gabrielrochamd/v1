@@ -9,7 +9,7 @@ export function DarkThemeSwitch() {
   
   return (
     <button className={`${styles.root} ${active && styles.darkTheme}`} onClick={() => setActive(!active)}>
-      <div className={`${styles.indicator} ${active && styles.darkTheme}`}>
+      <div className={styles.indicator}>
         {
           active ? (
             <IconContext.Provider value={{ color: '#fff', style: { height: '1rem', width: '1rem' } }}>

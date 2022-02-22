@@ -6,8 +6,8 @@ type ContextData = {
   setActive: Dispatch<SetStateAction<boolean>>
 }
 
-interface Props {
-  children: ReactChild | ReactChild[]
+type Props = {
+  children: ReactChild | ReactChild[],
   darkTheme: boolean
 }
 

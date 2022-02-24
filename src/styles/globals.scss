@@ -26,7 +26,6 @@ $xxl: 1400px;
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  transition: background-color 1s, color 1s;
 }
 
 html, body {
@@ -118,4 +117,8 @@ h6 {
   @media screen and (min-width: $xl) {
     max-width: 1140px;
   }
+}
+
+.transitions, .transitions * {
+  transition: background-color 1s, color 1s;
 }

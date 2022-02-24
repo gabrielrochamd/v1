@@ -1,14 +1,16 @@
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { BsList } from 'react-icons/bs'
 import styles from '../styles/components/header.module.scss'
-import { DarkThemeSwitch } from './dark-theme-switch'
 import { Navbar } from './navbar'
 
 export function Header() {
   const router = useRouter()
   const [showMenu, setShowMenu] = useState(false)
+
+  const DarkThemeSwitch = dynamic(async () => (await import('./dark-theme-switch')).DarkThemeSwitch, { ssr: false })
 
   function toggleMenu() {
     document.body.style.overflowY = showMenu ? 'unset' : 'hidden'

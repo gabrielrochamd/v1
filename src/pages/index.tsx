@@ -70,7 +70,7 @@ export default function Home({ posts, projects }: Props) {
             <p>Computer scientist since 2020, frontend developer with React, Next and Android developer in my free time. I automate repetitive tasks and help people and companies get their business online.</p>
           </div>
           <div className={styles.picture}>
-            <Image alt="Gabriel Rocha" height={320} layout="responsive" priority={true} src="/images/profile-picture.jfif" width={320} />
+            <Image alt="Gabriel Rocha" height={320} layout="responsive" priority={true} src="/images/profile-picture.jpg" width={320} />
           </div>
         </main>
         <div className={styles.actionContainer}>
